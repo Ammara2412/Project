@@ -52,7 +52,7 @@ const LoginPage = () => {
         const token = response.data.token;
         sessionStorage.setItem('token', token);
         console.log("Token:", token);
-        navigate('/Quest');
+        navigate('/home');
       }
     } catch (error) {
       if (error && error?.status == 404 && error?.response?.data?.message == "User not found") {

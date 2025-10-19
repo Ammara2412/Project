@@ -1,4 +1,4 @@
-// UserService.jsx
+// APIService.jsx
 
 import axios from 'axios';
 
@@ -38,8 +38,16 @@ export const loginUser = async (userData) => {
 
 
 
+
 export default {
     registerUser,
     loginUser,
-    
+  
 };
+
+
+
+
+
+
+

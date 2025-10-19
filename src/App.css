@@ -1,0 +1,83 @@
+/* Full background image for the whole page */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
+  background-image: url('/path-to-your-background.jpg'); /* replace with your image path */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* Header container */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 30px;
+  background: rgba(255, 255, 255, 0.8); /* semi-transparent background */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border-radius: 8px;      /* optional: rounded corners */
+}
+
+/* Logo on the left */
+.header .logo {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #333;
+  cursor: pointer;
+}
+
+/* Navigation menu on the right */
+.header nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Nav links */
+.header nav a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.header nav a:hover {
+  color: #007bff;
+}
+
+/* Search container */
+.search-container {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+  border: 1px solid #aaa;   /* border around search input */
+  border-radius: 20px;
+  padding: 4px 8px;
+  background: white;
+}
+
+/* Search input */
+.search-container input[type="text"] {
+  border: none;
+  outline: none;
+  padding: 6px;
+  width: 150px;
+  font-size: 1rem;
+}
+
+/* Search icon */
+.search-container .search-icon {
+  width: 18px;
+  height: 18px;
+  margin-right: 6px;
+  fill: #666;
+  cursor: pointer;
+}
+.logo-img {
+  height:100px; /* adjust to the size you want */
+  width: auto;  /* keeps the aspect ratio */
+}

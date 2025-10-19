@@ -20,6 +20,7 @@
     "@mui/styled-engine-sc": "^6.1.0",
     "axios": "^1.7.7",
     "formik": "^2.4.6",
+    "jwt-decode": "^4.0.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router-dom": "^6.30.1",

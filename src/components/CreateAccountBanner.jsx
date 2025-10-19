@@ -1,4 +1,4 @@
-import React from 'react';
+/*import React from 'react';
 import { Box, Typography } from '@mui/material';
 import crtAccount from '../assets/images/createaccount.jpg'; // Replace with your image path
 
@@ -38,4 +38,4 @@ const CreateAccountBanner = () => {
     );
 };
 
-export default CreateAccountBanner;
+export default CreateAccountBanner;*/
