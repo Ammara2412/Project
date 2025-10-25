@@ -2,16 +2,20 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../App.css';
-import logoImage from '../assets/images/logo.jpg';
+import logoImage from '../assets/images/logo.png';
+import '../styles/header.css';
 
 const Header = () => {
   const [query, setQuery] = useState('');
   const navigate = useNavigate();
 
-  const handleSearch = (e) => {
+
+
+   const handleSearch = (e) => {
     e.preventDefault(); // prevent page reload
     if (query.trim()) {
-      navigate(`/search?query=${encodeURIComponent(query)}`);
+      // Redirect to /search page with keyword as query param
+      navigate(`/search?keyword=${encodeURIComponent(query)}`);
     }
   };
 
@@ -22,9 +26,9 @@ const Header = () => {
       </div>
 
       <nav>
-        <a href="/home">Home</a>
-        <a href="/login">Login</a>
-        <a href="/signin">Signin</a>
+        <a href="/">Home</a>
+        <a href="/login">SignIn</a>
+        <a href="/register">SignUp</a>
         <a href="/history">History</a>
 
         <form className="search-container" onSubmit={handleSearch}>

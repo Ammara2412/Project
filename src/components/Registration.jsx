@@ -17,9 +17,9 @@ import { useNavigate } from 'react-router-dom';
 import { registerUser } from '../services/APIservice.jsx';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
-
+import loginImage from '../assets/images/Login.jpeg';
 import '../styles/Registration.css';
-
+import '../App.css';
 
 const validationSchema = Yup.object({
     firstName: Yup.string().required('First Name is required'),
@@ -70,7 +70,7 @@ const RegistrationPage = () => {
         try {
             const response = await registerUser(userDetailsWithoutConfirmPassword);
             if (response && response?.status == 201 && response?.data?.status == "success") {
-                setSuccessMessage('Success! Your account has been created. You can now log in to your ExamNinja account.');
+                setSuccessMessage('Success! Your account has been created. You can now log in to your Book-Worm account.');
                 setErrorMessage(null);
                 setTimeout(() => {
                     navigate('/login');
@@ -93,125 +93,144 @@ const RegistrationPage = () => {
         }
     };
 
-    return (
-        <Container maxWidth="sm">
-            {successMessage && (
-                <Stack sx={{ width: '100%', mt: 2 }} spacing={2}>
-                    <Alert severity="success">{successMessage}</Alert>
-                </Stack>
-            )}
-            {errorMessage && (
-                <Stack sx={{ width: '100%', mt: 2 }} spacing={2}>
-                    <Alert severity="error">{errorMessage}</Alert>
-                </Stack>
-            )}
+   return (
+        <div>
+                  
+            <Container maxWidth="md">
+                               
+              {/* ✅ Two-column layout card */}
 
-            <Card sx={{ mt: 2 }}>
-                <Typography variant="subtitle1" align="center" className="subtitle" sx={{ fontWeight: 'bold' }}>
-                    Join us and unlock your potential!
-                </Typography>
-              
-                <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <Card sx={{ mt: 4 }}>
+                    {/* Left side - Form Section */}
+                   
+                    <div className="form-section">
+                        <Typography
+                            variant="subtitle1"
+                            align="center"
+                            className="subtitle"
+                            borderColor='#ffa07a'
+                            sx={{ fontWeight: 'bold', mb: 2 }}
+                        >
+                            Join us And Be A Book-Worm!
+                        </Typography>
+                         {successMessage && (
+                    <Stack sx={{ width: '100%', mt: 1, align:"center"}} spacing={1}>
+                        <Alert severity="success">{successMessage}</Alert>
+                    </Stack>
+                )}
+                {errorMessage && (
+                    <Stack sx={{ width: '100%', mt: 1, align:"center"}} spacing={1}>
+                        <Alert severity="error">{errorMessage}</Alert>
+                    </Stack>
+                )}
 
-                    <Formik
-                        initialValues={initialValues}
-                        validationSchema={validationSchema}
-                        onSubmit={handleSubmit}
-                    >
-                        {({ errors, touched, handleChange, handleBlur, values }) => (
-                            <Form style={{ width: '100%' }}>
-                                <Grid container spacing={2}>
-                                    <Grid size={6}>
-                                        <TextField
+                        <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <Formik
+                                initialValues={initialValues}
+                                validationSchema={validationSchema}
+                                onSubmit={handleSubmit}
+                            >
+                                {({ errors, touched, handleChange, handleBlur, values }) => (
+                                    <Form style={{ width: '100%' }}>
+                                        <Grid container spacing={2}>
+                                            <Grid size={6}>
+                                                <TextField
+                                                    fullWidth
+                                                    label="First Name"
+                                                    name="firstName"
+                                                    variant="outlined"
+                                                    value={values.firstName}
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    error={touched.firstName && Boolean(errors.firstName)}
+                                                    helperText={touched.firstName && errors.firstName}
+                                                />
+                                            </Grid>
+                                            <Grid size={6}>
+                                                <TextField
+                                                    fullWidth
+                                                    label="Last Name"
+                                                    name="lastName"
+                                                    variant="outlined"
+                                                    value={values.lastName}
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    error={touched.lastName && Boolean(errors.lastName)}
+                                                    helperText={touched.lastName && errors.lastName}
+                                                />
+                                            </Grid>
+                                            <Grid size={12}>
+                                                <TextField
+                                                    fullWidth
+                                                    label="Email Address"
+                                                    name="email"
+                                                    variant="outlined"
+                                                    value={values.email}
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    error={touched.email && Boolean(errors.email)}
+                                                    helperText={touched.email && errors.email}
+                                                />
+                                            </Grid>
+                                            <Grid size={12}>
+                                                <TextField
+                                                    fullWidth
+                                                    label="Password"
+                                                    name="password"
+                                                    type="password"
+                                                    id="pwd"
+                                                    variant="outlined"
+                                                    value={values.password}
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    error={touched.password && Boolean(errors.password)}
+                                                    helperText={touched.password && errors.password}
+                                                />
+                                            </Grid>
+                                            <Grid size={12}>
+                                                <TextField
+                                                    fullWidth
+                                                    label="Confirm Password"
+                                                    name="confirmPassword"
+                                                    type="password"
+                                                    id="confirmP"
+                                                    variant="outlined"
+                                                    value={values.confirmPassword}
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    error={touched.confirmPassword && Boolean(errors.confirmPassword)}
+                                                    helperText={touched.confirmPassword && errors.confirmPassword}
+                                                />
+                                            </Grid>
+                                        </Grid>
+                                        <Button
+                                            type="submit"
                                             fullWidth
-                                            label="First Name"
-                                            name="firstName"
-                                            variant="outlined"
-                                            value={values.firstName}
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            error={touched.firstName && Boolean(errors.firstName)}
-                                            helperText={touched.firstName && errors.firstName}
-                                        />
-                                    </Grid>
-                                    <Grid size={6}>
-                                        <TextField
-                                            fullWidth
-                                            label="Last Name"
-                                            name="lastName"
-                                            variant="outlined"
-                                            value={values.lastName}
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            error={touched.lastName && Boolean(errors.lastName)}
-                                            helperText={touched.lastName && errors.lastName}
-                                        />
-                                    </Grid>
-                                    <Grid size={12}>
-                                        <TextField
-                                            fullWidth
-                                            label="Email Address"
-                                            name="email"
-                                            variant="outlined"
-                                            value={values.email}
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            error={touched.email && Boolean(errors.email)}
-                                            helperText={touched.email && errors.email}
-                                        />
-                                    </Grid>
-                                    <Grid size={12}>
-                                        <TextField
-                                            fullWidth
-                                            label="Password"
-                                            name="password"
-                                            type="password"
-                                            id="pwd"
-                                            variant="outlined"
-                                            value={values.password}
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            error={touched.password && Boolean(errors.password)}
-                                            helperText={touched.password && errors.password}
-                                        />
-                                    </Grid>
-                                    <Grid size={12}>
-                                        <TextField
-                                            fullWidth
-                                            label="Confirm Password"
-                                            name="confirmPassword"
-                                            type="password"
-                                            id="confirmP"
-                                            variant="outlined"
-                                            value={values.confirmPassword}
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            error={touched.confirmPassword && Boolean(errors.confirmPassword)}
-                                            helperText={touched.confirmPassword && errors.confirmPassword}
-                                        />
-                                    </Grid>
-                                </Grid>
-                                <Button
-                                    type="submit"
-                                    fullWidth
-                                    variant="contained"
-                                    sx={{ mt: 3 }}
-                                >
-                                    Create Account
-                                </Button>
-                            </Form>
-                        )}
-                    </Formik>
-                    <Typography variant="body2" sx={{ mt: 2 }}>
-                        Already have an account?{' '}
-                        <Link to="/login" variant="body2" style={{ textDecoration: 'none', color: 'primary' }} className='Loginlink'>
-                            Log In
-                        </Link>
-                    </Typography>
-                </Box>
-            </Card>
-        </Container>
+                                            variant="contained"
+                                            sx={{ mt: 3 }}
+                                        >
+                                            Create Account
+                                        </Button>
+                                    </Form>
+                                )}
+                            </Formik>
+                            <Typography variant="body2" sx={{ mt: 2 }}>
+                                Already have an account?{' '}
+                                <Link to="/login" className="Loginlink">
+                                    Sign In
+                                </Link>
+                            </Typography>
+                        </Box>
+                    </div>
+
+                    {/* Right side - Illustration Section */}
+                    <div className="illustration-section">
+                        <img src={loginImage} alt="Books Illustration" />
+                    </div>
+                </Card>
+            </Container>
+        </div>
     );
-}
+};
 
 export default RegistrationPage;

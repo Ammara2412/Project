@@ -8,6 +8,9 @@ import { loginUser } from '../services/APIservice.jsx';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import '../styles/Registration.css';
+import loginImage from '../assets/images/Login.jpeg';
+import '../App.css';
+import bgImage from '../assets/images/BIGIMG.jpg';
 
 const validationSchema = Yup.object({
   email: Yup.string()
@@ -51,9 +54,13 @@ const LoginPage = () => {
         setSuccessMessage('Success! You have logged in successfully');
         setErrorMessage(null);
         const token = response.data.token;
-        sessionStorage.setItem('token', token);
-        console.log("Token:", token);
-        navigate('/home');
+        const userId = response.data.id; // get from backend
+        sessionStorage.setItem("token", token);
+         console.log("Token:", token);
+         sessionStorage.setItem("userId", userId);
+         console.log("userId:", userId);
+
+        navigate('/');
       }
     } catch (error) {
       if (error && error?.status == 404 && error?.response?.data?.message == "User not found") {
@@ -76,76 +83,127 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="tab-container">
-      <Container maxWidth="sm">
-        {successMessage && (
-          <Stack sx={{ width: '100%', mt: 2 }} spacing={2}>
-            <Alert severity="success">{successMessage}</Alert>
-          </Stack>
-        )}
-        {errorMessage && (
-          <Stack sx={{ width: '100%', mt: 2 }} spacing={2}>
-            <Alert severity="error">{errorMessage}</Alert>
-          </Stack>
-        )}
-
-        <Card sx={{ mt: 2 }}>
-          <Box sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-            <Typography variant="h5" align="left" sx={{ fontWeight: 'bold' }}>Login</Typography>
-            <Typography variant="body2" align="left" sx={{ mt: 1, mb: 2 }}>
-              Doesn't have an account yet?{' '}
-              <Link to="/register" variant="body2" style={{ textDecoration: 'none', color: 'primary' }} className='Loginlink'>
-                Register here
-              </Link>
-            </Typography>
-            <Formik
-              initialValues={initialValues}
-              validationSchema={validationSchema}
-              onSubmit={handleSubmit}
+    
+      <div className="tab-container" style={{
+        minHeight: "100vh",
+        backgroundImage: `url(${bgImage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundAttachment: "fixed",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}>
+      <Container maxWidth="md">
+        <Card sx={{ mt: 4, display: "flex", flexDirection: { xs: "column", md: "row" } }}>
+          {/* ✅ Left Side - Form Section */}
+          <div className="form-section" style={{ flex: 1, padding: "20px" }}>
+            <Typography
+              variant="subtitle1"
+              align="center"
+              className="subtitle"
+              sx={{ fontWeight: "bold", mb: 2 }}
             >
-              {({ errors, touched, handleChange, handleBlur, values }) => (
-                <Form style={{ width: '100%' }}>
-                  <Grid container spacing={2}>
-                    <Grid size={12}>
-                      <TextField
-                        fullWidth
-                        label="Email Address"
-                        name="email"
-                        variant="outlined"
-                        value={values.email}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        error={touched.email && Boolean(errors.email)}
-                        helperText={touched.email && errors.email}
-                      />
+              Welcome Back!
+            </Typography>
+
+            {successMessage && (
+              <Stack sx={{ width: "100%", mt: 1 }} spacing={1}>
+                <Alert severity="success">{successMessage}</Alert>
+              </Stack>
+            )}
+            {errorMessage && (
+              <Stack sx={{ width: "100%", mt: 1 }} spacing={1}>
+                <Alert severity="error">{errorMessage}</Alert>
+              </Stack>
+            )}
+
+            <Box
+              sx={{
+                p: 2,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <Formik
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={handleSubmit}
+              >
+                {({ errors, touched, handleChange, handleBlur, values }) => (
+                  <Form style={{ width: "100%" }}>
+                    <Grid container spacing={2}>
+                      <Grid item xs={12}>
+                        <TextField
+                          fullWidth
+                          label="Email Address"
+                          name="email"
+                          variant="outlined"
+                          value={values.email}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={touched.email && Boolean(errors.email)}
+                          helperText={touched.email && errors.email}
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField
+                          fullWidth
+                          label="Password"
+                          name="password"
+                          type="password"
+                          id="pwd"
+                          variant="outlined"
+                          value={values.password}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={touched.password && Boolean(errors.password)}
+                          helperText={touched.password && errors.password}
+                        />
+                      </Grid>
                     </Grid>
-                    <Grid size={12}>
-                      <TextField
-                        fullWidth
-                        label="Password"
-                        name="password"
-                        type="password"
-                        id="pwd"
-                        variant="outlined"
-                        value={values.password}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        error={touched.password && Boolean(errors.password)}
-                        helperText={touched.password && errors.password}
-                      />
-                    </Grid>
-                  </Grid>
-                  <Button type="submit" fullWidth variant="contained" sx={{ mt: 3 }}>
-                    Login
-                  </Button>
-                </Form>
-              )}
-            </Formik>
-          </Box>
+
+                    <Button type="submit" fullWidth variant="contained" sx={{ mt: 3 }}>
+                      Sign In
+                    </Button>
+                  </Form>
+                )}
+              </Formik>
+
+              <Typography variant="body2" sx={{ mt: 2 }}>
+                Don’t have an account?{" "}
+                <Link to="/register" className="Loginlink">
+                  Sign Up here
+                </Link>
+              </Typography>
+            </Box>
+          </div>
+
+          {/* ✅ Right Side - Illustration Section */}
+          <div
+            className="illustration-section"
+            style={{
+              flex: 1,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "#fdf6f0",
+              borderLeft: "1px solid #f0e6e6",
+            }}
+          >
+            <img
+              src={loginImage}
+              alt="Login Illustration"
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            />
+          </div>
         </Card>
       </Container>
     </div>
   );
 };
+
 
 export default LoginPage;

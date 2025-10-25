@@ -6,5 +6,118 @@
     font-weight: bold;
     font-size: 16px;
     padding: 4px 0px;
-    background: linear-gradient(135deg, #EAFFFF, #D5FCFC);
+    background: linear-gradient(135deg, #ffa07a, #F3EFEA);
 }
+
+/* ===== Common Page Styles (Login + Register) ===== */
+body {
+  font-family: 'Inter', 'Poppins', sans-serif;
+  background: #f5f6fa;
+  margin: 0;
+  padding: 0;
+}
+
+/* Centered container like in the design */
+.MuiContainer-root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+}
+
+/* Card with shadow and rounded corners */
+.MuiCard-root {
+  background: #f8f7f2;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  padding: 20px 30px;
+  width: 100%;
+  max-width: 750px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Left side form area */
+.MuiCard-root form {
+  width: 100%;
+}
+
+/* Typography tweaks */
+.subtitle {
+  font-size: 1.2rem;
+  color: #333;
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+.Loginlink {
+  color: #2f4f4f;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.Loginlink:hover {
+  color: #1a2c2c;
+}
+
+
+
+
+
+/* ===== Two-column layout for login page ===== */
+.tab-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f5f6fa;
+}
+
+.tab-container .MuiContainer-root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.MuiCard-root {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+/* Left side form content */
+.form-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Right side illustration */
+.illustration-section {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.illustration-section img {
+  width: 85%;
+  max-width: 350px;
+  object-fit: contain;
+}
+
+/* Input field styling */
+.MuiTextField-root {
+  background: white;
+  border-radius: 8px;
+}
+
+.MuiAlert-root {
+  border-radius: 8px;
+}
+

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { getAllBooks, borrowBook } from "../services/BookService";
-import Header from "../components/header";
-import { Button, Snackbar, Alert } from "@mui/material";
+import Header from "../components/header.jsx";
+import { Box,Button, Snackbar, Alert } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import '../App.css';
 
 const BASE_URL = "http://localhost:8081";
 
@@ -12,6 +14,7 @@ const Home = () => {
   const [open, setOpen] = useState(false);
 
   const token = sessionStorage.getItem("token");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -20,15 +23,20 @@ const Home = () => {
         setBooks(data);
       } catch (error) {
         console.error(error);
-        setMessage("Authentication failed or unable to fetch books.");
+        setMessage("unable to fetch books.");
         setSeverity("error");
         setOpen(true);
       }
     };
-    if (token) fetchBooks();
+     fetchBooks();
   }, [token]);
 
   const handleBorrow = async (bookId) => {
+     if (!token) {
+      // if not logged in, redirect to login
+      navigate("/login");
+      return;
+    }
     try {
       // Call backend to borrow book
       const response = await borrowBook(bookId, token);
@@ -62,8 +70,10 @@ const Home = () => {
   }, {});
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div style={{ padding: "20px" , minHeight: "100vh", // <-- ensures it covers full viewport
+      boxSizing: "border-box",}}>
       <Header />
+       <Box mt={0}> {/* Add margin-top */}
       <table
         style={{
           width: "100%",
@@ -80,7 +90,7 @@ const Home = () => {
                   style={{
                     border: "1px solid #ddd",
                     padding: "10px",
-                    backgroundColor: "#f0f0f0",
+                    backgroundColor: "CBAACB",
                     fontWeight: "bold",
                   }}
                 >
@@ -102,11 +112,11 @@ const Home = () => {
                         key={book.id}
                         style={{
                           width: "200px",
-                          border: "1px solid #ddd",
-                          borderRadius: "8px",
+                         
+                          borderRadius: "0px",
                           padding: "10px",
                           textAlign: "center",
-                          backgroundColor: "#f9f9f9",
+                          backgroundColor: "CBAACB",
                         }}
                       >
                         <img
@@ -151,6 +161,7 @@ const Home = () => {
           {message}
         </Alert>
       </Snackbar>
+      </Box>
     </div>
   );
 };
