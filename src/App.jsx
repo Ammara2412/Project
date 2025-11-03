@@ -8,6 +8,7 @@ import Home from '../src/components/Home.jsx'
 import History from '../src/components/History.jsx'
 //import SearchResults from '../src/components/Search.jsx'
 import SearchBooks from "../src/components/Search.jsx";
+import ChangePassword from './components/ChangPassword.jsx';
 
 
 
@@ -21,6 +22,7 @@ function App() {
       <Route path="/" element={<Home/>}/>
       <Route path="/history" element={<History/>}/>
       <Route path="/search" element={<SearchBooks />} />
+       <Route path="/change-password" element={<ChangePassword />} />
     
     </Routes>
   </Router>

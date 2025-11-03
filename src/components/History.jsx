@@ -7,24 +7,27 @@ import { Typography, Box, Paper, CircularProgress, Table,
   TableRow} from "@mui/material";
 import axios from "axios";
 import Header from "../components/header";
-
+import { useNavigate } from "react-router-dom";
 
 const History = () => {
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
     const userId = sessionStorage.getItem("userId");
 
     if (!token || !userId) {
+      navigate('/login')
       setLoading(false);
       setError("User is not authenticated.");
       return;
     }
 
     const fetchHistory = async () => {
+      
       try {
         const response = await axios.get(
           `http://localhost:8081/api/history/${userId}`,

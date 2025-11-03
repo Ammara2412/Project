@@ -30,7 +30,8 @@ const Header = () => {
         <a href="/login">SignIn</a>
         <a href="/register">SignUp</a>
         <a href="/history">History</a>
-
+          <a href="/reset-password">Reset-Password</a>
+          <a href="/change-password">Change-Password</a>
         <form className="search-container" onSubmit={handleSearch}>
           {/* Search SVG icon */}
           <svg className="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
