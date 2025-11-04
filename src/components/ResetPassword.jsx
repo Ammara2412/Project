@@ -1,95 +1,158 @@
-import React, { useState } from 'react';
-import { Box, TextField, Button, Typography, Alert, Stack } from '@mui/material';
-import { Formik, Form } from 'formik';
-import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom';
-import { resetPassword } from '../services/APIservice.jsx'; // Import the resetPassword function
+import React, { useState } from "react";
+import {
+  Box,
+  TextField,
+  Button,
+  Typography,
+  Alert,
+  Stack,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+} from "@mui/material";
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Header from "./header";
 
+// ✅ Validation Schema
 const validationSchema = Yup.object({
   email: Yup.string()
-    .email('Invalid email format')
-    .matches(/@.*\.com$/, 'Email must contain "@" and end with ".com"')
-    .required('Email is mandatory'),
+    .email("Invalid email format")
+    .required("Email field can't be empty"),
 });
 
 const ResetPassword = () => {
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [generatedPassword, setGeneratedPassword] = useState(null);
-
+  const [error, setError] = useState(null);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [newPassword, setNewPassword] = useState("");
   const navigate = useNavigate();
-  const initialValues = { email: '' };
 
-  const handleSubmit = async (values) => {
+  // ✅ Handle Submit
+  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
-      const data = await resetPassword({ email: values.email });
-      setGeneratedPassword(data.message); // Assuming backend returns new password in data.message
-      setErrorMessage(null);
-       navigate('/login');
-      
-    } catch (error) {
-      setGeneratedPassword(null);
-      if (error.response?.status === 400) {
-        setErrorMessage(error.response.data.message || 'Validation failed');
+      setError(null);
+      const response = await axios.post("http://localhost:8081/api/users/reset-password", {
+        email: values.email,
+      });
+
+      if (response.data.status === "success") {
+        // Extract new password from response message
+        const message = response.data.message;
+        const passwordMatch = message.match(/New Password is:\s*(.*)/);
+        const extractedPassword = passwordMatch ? passwordMatch[1] : "";
+
+        setNewPassword(extractedPassword);
+        setOpenDialog(true);
+        resetForm();
       } else {
-        setErrorMessage('An unexpected error occurred. Please try again.');
+        setError("Unexpected response from server.");
       }
+    } catch (err) {
+      if (err.response && err.response.data) {
+        const backendError = err.response.data.details?.email || err.response.data.message;
+        setError(backendError || "Something went wrong. Please try again.");
+      } else {
+        setError("Unable to connect to the server. Please check your backend.");
+      }
+    } finally {
+      setSubmitting(false);
     }
   };
 
+  // ✅ Handle dialog close
+  const handleDialogClose = () => {
+    setOpenDialog(false);
+    navigate("/login");
+  };
+
   return (
+    <div> <Header/>
+   
     <Box
       sx={{
-        maxWidth: 400,
-        mx: 'auto',
-        mt: 6,
-        p: 3,
-        border: '1px solid #ddd',
-        borderRadius: 2,
-        boxShadow: 2,
+        width: "100%",
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        p: 2,
       }}
     >
-      <Typography variant="h6" sx={{ mb: 2, textAlign: 'center' }}>
-        Forgot Password
-      </Typography>
+      <Box
+        sx={{
+          width: 400,
+          backgroundColor: "#fff",
+          borderRadius: 2,
+          boxShadow: 3,
+          p: 4,
+        }}
+      >
+        <Typography variant="h5" align="center" gutterBottom fontWeight="bold">
+          Reset Password
+        </Typography>
 
-      {errorMessage && (
-        <Stack sx={{ width: '100%', mb: 2 }} spacing={2}>
-          <Alert severity="error">{errorMessage}</Alert>
-        </Stack>
-      )}
-
-      {!generatedPassword ? (
         <Formik
-          initialValues={initialValues}
+          initialValues={{ email: "" }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
-          {({ errors, touched, handleChange, handleBlur, values }) => (
+          {({ values, errors, touched, handleChange, isSubmitting }) => (
             <Form>
-              <TextField
-                fullWidth
-                label="Email Address"
-                name="email"
-                variant="outlined"
-                value={values.email}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched.email && Boolean(errors.email)}
-                helperText={touched.email && errors.email}
-                sx={{ mb: 2 }}
-              />
-              <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }}>
-                Continue
-              </Button>
+              <Stack spacing={2}>
+                <TextField
+                  label="Email Address"
+                  name="email"
+                  variant="outlined"
+                  fullWidth
+                  value={values.email}
+                  onChange={handleChange}
+                  error={touched.email && Boolean(errors.email)}
+                  helperText={touched.email && errors.email}
+                />
+
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Processing..." : "Continue"}
+                </Button>
+
+                {error && (
+                  <Alert severity="error" sx={{ mt: 2 }}>
+                    {error}
+                  </Alert>
+                )}
+              </Stack>
             </Form>
           )}
         </Formik>
-      ) : (
-        <Stack sx={{ width: '100%', mb: 2 }} spacing={2}>
-          <Alert severity="info">{generatedPassword}</Alert>
-        </Stack>
-      )}
+      </Box>
+
+      {/* ✅ Success Dialog */}
+      <Dialog open={openDialog} onClose={handleDialogClose}>
+        <DialogTitle>Password Reset Successful</DialogTitle>
+        <DialogContent>
+          <Typography>
+            Your password has been reset successfully.
+          </Typography>
+          <Typography sx={{ mt: 1 }}>
+            <strong>New Password:</strong> {newPassword}
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDialogClose} variant="contained" color="primary">
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
+    </div>
   );
 };
 

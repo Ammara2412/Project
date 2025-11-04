@@ -38,7 +38,7 @@ const validationSchema = Yup.object({
 const LoginPage = () => {
   const [successMessage, setSuccessMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
-  const [activeTab, setActiveTab] = useState(0); 
+  
   
   const navigate = useNavigate();
 

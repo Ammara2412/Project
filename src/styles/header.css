@@ -95,3 +95,46 @@
     gap: 10px;
   }
 }
+
+/* Normal nav link and Profile look same */
+nav a,
+.dropdown-toggle {
+  color: black;
+  text-decoration: none;
+  padding: 10px 15px;
+  display: inline-block;
+  transition: background-color 0.3s;
+}
+
+
+
+/* Dropdown container */
+.dropdown {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* Dropdown menu (vertical stack) */
+.dropdown-menu {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  background-color: white;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column; /* stack items vertically */
+  min-width: 180px;
+  z-index: 10;
+}
+
+/* Each dropdown link on its own line */
+.dropdown-menu a {
+  display: block;           /* ensures vertical layout */
+  padding: 10px 15px;
+  color: rgb(247, 93, 93);
+  text-decoration: none;
+  width: 100%;
+}
+
+

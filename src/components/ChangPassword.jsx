@@ -13,13 +13,14 @@ import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
+import Header from "./header";
 
 const ChangePassword = () => {
   const [apiMessage, setApiMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
    const navigate = useNavigate();
-  // ✅ Validation schema
+  //  Validation schema
   const validationSchema = Yup.object({
     email: Yup.string().email("Invalid email").required("Email is required"),
     oldPassword: Yup.string().required("Old password is required"),
@@ -28,7 +29,7 @@ const ChangePassword = () => {
       .required("New password is required"),
   });
 
-  // ✅ Handle form submission
+  //  Handle form submission
   const handleSubmit = async (values, { resetForm }) => {
     setLoading(true);
     setApiMessage("");
@@ -58,6 +59,7 @@ const ChangePassword = () => {
   };
 
   return (
+    <div><Header/>
     <Container maxWidth="sm" sx={{ mt: 6 }}>
       <Paper elevation={3} sx={{ p: 4, borderRadius: 3 }}>
         <Typography
@@ -148,6 +150,7 @@ const ChangePassword = () => {
         </Formik>
       </Paper>
     </Container>
+    </div>
   );
 };
 
